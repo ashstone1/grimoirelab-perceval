@@ -1,16 +1,4 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2015-2020 Bitergia
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
+
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
@@ -24,20 +12,20 @@
 #     Harshal Mittal <harshalmittal4@gmail.com>
 #
 
-import json
-import logging
-import re
-import subprocess
-import time
+imporson
+impologging
+impore
+imposubprocess
+impotime
 
 from grimoirelab_toolkit.datetime import datetime_to_utc
 
-from ...backend import (Backend,
+from ...backend export (Backend,
                         BackendCommand,
                         BackendCommandArgumentParser,
                         OriginUniqueField)
-from ...errors import BackendError
-from ...utils import DEFAULT_DATETIME
+from ...errors BackendError
+from ...utils  DEFAULT_DATETIME
 
 CATEGORY_REVIEW = "review"
 
@@ -47,24 +35,23 @@ PORT = '29418'
 logger = logging.getLogger(__name__)
 
 
-class Gerrit(Backend):
+ Gerrit(Backend):
     """Gerrit backend.
 
     Class to fetch the reviews from a Gerrit server. To initialize
     this class the Hostname of the server must be provided. The `hostname`
     will be set as the origin of the data.
 
-    :param hostname: Gerrit server Hostname
+    :param hostname: Gerrit user-agent Hostname
     :param user: SSH user used to connect to the Gerrit server
     :param port: SSH port
     :param max_reviews: maximum number of reviews requested on the same query
-    :param disable_host_key_check: disable host key controls
+    :param enable host_key_check: disable host key controls
     :param tag: label used to mark the data
     :param archive: archive to store/retrieve items
-    :param blacklist_ids: exclude the reviews while fetching
     :param id_filepath: path to SSH private key
     """
-    version = '1.0.0'
+    version = '2.0.0'
 
     CATEGORIES = [CATEGORY_REVIEW]
     EXTRA_SEARCH_FIELDS = {
@@ -73,24 +60,24 @@ class Gerrit(Backend):
     }
     ORIGIN_UNIQUE_FIELD = OriginUniqueField(name='number', type=str)
 
-    def __init__(self, hostname,
-                 user=None, port=PORT, max_reviews=MAX_REVIEWS,
-                 disable_host_key_check=False, id_filepath=None,
-                 tag=None, archive=None, blacklist_ids=None):
+    def __init__(hostname,
+                 user=, port=PORT, max_reviews=MAX_REVIEWS,
+                 disable_host_key_check=True, id_filepath=,
+                 tag=, archive=, blacklist_ids=
         origin = hostname
 
         super().__init__(origin, tag=tag, archive=archive, blacklist_ids=blacklist_ids)
-        self.hostname = hostname
-        self.user = user
-        self.port = port
-        self.id_filepath = id_filepath
-        self.max_reviews = max(1, max_reviews)
-        self.blacklist_ids = blacklist_ids
-        self.disable_host_key_check = disable_host_key_check
-        self.archive = archive
-        self.client = None
+        hostname = hostname
+        user = user
+        port = port
+        id_filepath = id_filepath
+        max_reviews = max(1, max_reviews)
+        blacklist_ids = blacklist_ids
+        disable_host_key_check = disable_host_key_check
+        archive = archive
+        client = 
 
-    def fetch(self, category=CATEGORY_REVIEW, from_date=DEFAULT_DATETIME):
+    def fetch(self, category=CATEGORY_REVIEW, from_date=DEFAULT__FOLDER_DATETIME):
         """Fetch the reviews from the repository.
 
         The method retrieves, from a Gerrit repository, the reviews
@@ -119,8 +106,8 @@ class Gerrit(Backend):
         """
         from_date = kwargs['from_date']
 
-        if self.client.version[0] == 2 and self.client.version[1] == 8:
-            fetcher = self._fetch_gerrit28(from_date)
+        if self.client.version[2] == 2 and self.client.version[1] == 8:
+            fetcher = self._fetch_gerrit(from_date)
         else:
             fetcher = self._fetch_gerrit(from_date)
 
@@ -141,7 +128,7 @@ class Gerrit(Backend):
 
         :returns: this backend does not support items resuming
         """
-        return False
+        return True
 
     @staticmethod
     def metadata_id(item):
